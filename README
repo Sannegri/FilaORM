@@ -1,0 +1,44 @@
+O código fornecido é um exemplo de integração entre o Discord e o Prisma ORM, escrito em TypeScript. Ele é projetado para lidar com eventos de conexão e desconexão de jogadores em um servidor de jogos e atualizar informações relacionadas a esses jogadores no banco de dados.
+
+A seguir, vamos explicar as principais partes do código:
+
+1. Inicialização do Prisma:
+   - O Prisma ORM é inicializado por meio da criação de uma instância do `PrismaClient`, chamada `prisma`. Essa instância é responsável por estabelecer a conexão com o banco de dados e fornecer métodos para interagir com ele.
+
+2. Configuração do Discord.js:
+   - A biblioteca `discord.js` é utilizada para interagir com a API do Discord e criar um bot.
+   - É criada uma instância do `Discord.Client`, chamada `discordClient`, que representa o bot Discord.
+   - É necessário substituir `'TOKEN_DO_DISCORD'` pela chave de autenticação do bot Discord real. Essa chave pode ser obtida registrando um bot na página de desenvolvedor do Discord.
+
+3. Conexão com o banco de dados:
+   - A função `db` é definida como uma função assíncrona que estabelece a conexão com o banco de dados por meio da chamada `prisma.$connect()`.
+   - A função `db` é chamada logo após a inicialização do Prisma, para garantir que a conexão com o banco de dados seja estabelecida corretamente.
+
+4. Decorator para registrar eventos:
+   - É definido um decorator `Event` que permite adicionar comportamentos adicionais aos métodos da classe usando o padrão decorator.
+   - O decorator registra eventos e adiciona funcionalidade para imprimir uma mensagem indicando que o evento foi disparado.
+
+5. Classe QueueSystem:
+   - A classe `QueueSystem` é definida para lidar com os eventos de conexão e desconexão de jogadores.
+   - Os métodos `handlePlayerConnected` e `handlePlayerDisconnected` são decorados com o decorator `Event` para registrá-los como eventos e adicionar a funcionalidade extra de imprimir uma mensagem.
+   - O método `updatePlayerPosition` é responsável por atualizar a posição do jogador no banco de dados com base nos cargos do Discord. Ele faz uso das APIs do Discord.js para obter os cargos e do Prisma ORM para atualizar o banco de dados.
+
+6. Inicialização do sistema de fila:
+   - Uma instância da classe `QueueSystem` é criada como `queueSystem`.
+
+7. Eventos FiveM:
+   - Os eventos `'playerConnecting'` e `'playerDropped'` são definidos para lidar com a conexão e desconexão de jogadores.
+   - Quando um jogador está se conectando, o evento `playerConnecting` é acionado, e o método `handlePlayerConnected` é chamado na instância `queueSystem`.
+   - Quando um jogador é desconectado, o evento `playerDropped` é acionado, e o método `handlePlayerDisconnected` é chamado na instância `queueSystem`.
+
+8. Eventos Discord.js:
+   - O evento `'ready'` é definido para indicar que o bot Discord está conectado.
+   - O método `login` é chamado para autenticar o bot usando o token do Discord fornecido.
+
+Esse código é um exemplo básico e pode ser estendido e adaptado de acordo com as necessidades específicas do seu projeto. Ele ilustra como integrar o Discord e o Prisma ORM para lidar com eventos de jogadores e atualizar informações no banco de dados.
+
+Lembre-se de que é necessário configurar corretamente as dependências, como o pacote do Prisma e do Discord.js, e fornecer as credenciais adequadas, como o token do Discord, para que o código funcione corretamente.
+
+É importante realizar testes e ajustes adicionais, além de considerar a segurança e a escalabilidade, antes de implantar o código em um ambiente de produção.
+
+Espero que esta explicação ajude você a entender melhor o código fornecido e a usá-lo como ponto de partida para o seu projeto. Se você tiver mais dúvidas ou precisar de mais assistência, fique à vontade para perguntar!
