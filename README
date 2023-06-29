@@ -35,10 +35,3 @@ A seguir, vamos explicar as principais partes do código:
    - O evento `'ready'` é definido para indicar que o bot Discord está conectado.
    - O método `login` é chamado para autenticar o bot usando o token do Discord fornecido.
 
-Esse código é um exemplo básico e pode ser estendido e adaptado de acordo com as necessidades específicas do seu projeto. Ele ilustra como integrar o Discord e o Prisma ORM para lidar com eventos de jogadores e atualizar informações no banco de dados.
-
-Lembre-se de que é necessário configurar corretamente as dependências, como o pacote do Prisma e do Discord.js, e fornecer as credenciais adequadas, como o token do Discord, para que o código funcione corretamente.
-
-É importante realizar testes e ajustes adicionais, além de considerar a segurança e a escalabilidade, antes de implantar o código em um ambiente de produção.
-
-Espero que esta explicação ajude você a entender melhor o código fornecido e a usá-lo como ponto de partida para o seu projeto. Se você tiver mais dúvidas ou precisar de mais assistência, fique à vontade para perguntar!
