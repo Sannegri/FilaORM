@@ -33,6 +33,25 @@ function Event(eventName: string) {
 }
 
 class QueueSystem {
+  constructor(private discordClient: Discord.Client) {}
+
+  @Event('playerConnecting')
+  async handlePlayerConnecting(playerName: string, setKickReason: (reason: string) => void) {
+    const playerId = parseInt(playerName);
+
+    if (!Number.isNaN(playerId)) {
+      await this.handlePlayerConnected(playerId.toString());
+    } else {
+      setKickReason('Erro ao conectar. ID do jogador inválido.');
+      console.log('Erro ao conectar. ID do jogador inválido:', playerName);
+    }
+  }
+
+  @Event('playerDropped')
+  async handlePlayerDropped(playerId: string) {
+    await this.handlePlayerDisconnected(playerId.toString());
+  }
+
   @Event('playerConnected')
   async handlePlayerConnected(playerId: string) {
     try {
@@ -78,7 +97,7 @@ class QueueSystem {
   async updatePlayerPosition(playerId: string) {
     try {
       const discordGuildId = 'ID_DO_SERVIDOR_NO_DISCORD';
-      const server: Guild | undefined = discordClient.guilds.cache.get(
+      const server: Guild | undefined = this.discordClient.guilds.cache.get(
         discordGuildId
       );
 
@@ -103,24 +122,8 @@ class QueueSystem {
   }
 }
 
-const queueSystem = new QueueSystem();
+const queueSystem = new QueueSystem(discordClient);
 
-onNet('playerConnecting', async (playerName: string, setKickReason: (reason: string) => void) => {
-  const playerId = parseInt(playerName);
-
-  if (!Number.isNaN(playerId)) {
-    await queueSystem.handlePlayerConnected(playerId.toString());
-  } else {
-    setKickReason('Erro ao conectar. ID do jogador inválido.');
-    console.log('Erro ao conectar. ID do jogador inválido:', playerName);
-  }
-});
-
-onNet('playerDropped', async (playerId: string) => {
-  await queueSystem.handlePlayerDisconnected(playerId.toString());
-});
-
-// Eventos Discord.js
 discordClient.on('ready', () => {
   console.log('Bot do Discord conectado');
 });
